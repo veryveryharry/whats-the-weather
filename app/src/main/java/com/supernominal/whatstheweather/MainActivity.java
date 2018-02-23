@@ -1,5 +1,6 @@
 package com.supernominal.whatstheweather;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -7,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +29,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Properties;
 
@@ -35,11 +38,14 @@ public class MainActivity extends AppCompatActivity {
     TextView weatherTextView;
     TextView tempTextView;
     LinearLayout linearLayout;
+    EditText cityEditText;
 
     public void getWeather(View view) {
-        EditText cityEditText = (EditText) findViewById(R.id.cityEditText);
         String cityName = cityEditText.getText().toString();
         Log.i("City name:", cityName);
+
+        InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(cityEditText.getWindowToken(), 0);
 
         Map<String, String> envMap = new HashMap();
         try {
@@ -116,5 +122,6 @@ public class MainActivity extends AppCompatActivity {
         weatherTextView = (TextView) findViewById(R.id.weatherTextView);
         tempTextView = (TextView) findViewById(R.id.tempTextView);
         linearLayout = (LinearLayout) findViewById(R.id.linearLayout);
+        cityEditText = (EditText) findViewById(R.id.cityEditText);
     }
 }
